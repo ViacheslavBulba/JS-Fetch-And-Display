@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fetch and Display</title>
+  <style>
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    ol {
+      margin: 0;
+    }
+
+    #usersRadioGroup {
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div id="usersRadioGroup"></div>
+    <ol id="posts"></ol>
+  </div>
+
+  <script>
+    const usersRadioGroup = document.getElementById('usersRadioGroup');
+    const postsHolder = document.getElementById('posts');
+    const HOST = 'https://jsonplaceholder.typicode.com';
+
+    async function fetchUsers() {
+      const response = await fetch(`${HOST}/users`);
+      const users = await response.json();
+      showUsers(users);
+    }
+
+    function showUsers(data) {
+      for (let u of data) {
+
+        const input = document.createElement('input');
+        input.type = 'radio';
+        input.name = 'users';
+        input.value = u.id;
+        input.id = u.id;
+
+        input.addEventListener('click', (event) => fetchPosts(event.target.value));
+
+        usersRadioGroup.appendChild(input);
+
+        const label = document.createElement('label');
+        label.setAttribute('for', u.id);
+        label.innerText = u.name;
+        label.value = u.id;
+        usersRadioGroup.appendChild(label);
+
+        const br = document.createElement('br');
+        usersRadioGroup.appendChild(br);
+      }
+    }
+
+    fetchUsers();
+
+    async function fetchPosts(userId) {
+      const response = await fetch(`${HOST}/posts?userId=${userId}`);
+      const posts = await response.json();
+      showPosts(posts);
+    }
+
+    function showPosts(data) {
+      postsHolder.innerHTML = '';
+      for (let p of data) {
+        const li = document.createElement('li');
+        li.innerText = p.title;
+        postsHolder.appendChild(li);
+      }
+    }
+
+  </script>
+</body>
+</html>
