@@ -33,9 +33,13 @@
     const HOST = 'https://jsonplaceholder.typicode.com';
 
     async function fetchUsers() {
-      const response = await fetch(`${HOST}/users`);
-      const users = await response.json();
-      showUsers(users);
+      try {
+        const response = await fetch(`${HOST}/users`);
+        const users = await response.json();
+        showUsers(users);
+      } catch (err) {
+        alert("error occured while getting users via API");
+      }
     }
 
     function showUsers(data) {
@@ -65,9 +69,13 @@
     fetchUsers();
 
     async function fetchPosts(userId) {
-      const response = await fetch(`${HOST}/posts?userId=${userId}`);
-      const posts = await response.json();
-      showPosts(posts);
+      try {
+        const response = await fetch(`${HOST}/posts?userId=${userId}`);
+        const posts = await response.json();
+        showPosts(posts);
+      } catch (err) {
+        alert("error occured while getting posts via API");
+      }
     }
 
     function showPosts(data) {
@@ -81,4 +89,5 @@
 
   </script>
 </body>
+
 </html>
