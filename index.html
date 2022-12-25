@@ -38,7 +38,7 @@
         const users = await response.json();
         showUsers(users);
       } catch (err) {
-        alert("error occured while getting users via API");
+        alert("error occured while getting data via API: " + err);
       }
     }
 
